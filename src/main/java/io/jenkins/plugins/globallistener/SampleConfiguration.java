@@ -1,4 +1,4 @@
-package io.jenkins.plugins.sample;
+package io.jenkins.plugins.globallistener;
 
 import hudson.Extension;
 import hudson.util.FormValidation;
