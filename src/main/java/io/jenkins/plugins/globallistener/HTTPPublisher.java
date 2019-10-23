@@ -14,7 +14,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.StatusLine;
 
-// TODO: http post in thread.
+/**
+ * TODO: do the job in background thread.
+ */
 public class HTTPPublisher {
 
     private static Logger LOGGER = Logger.getLogger(HTTPPublisher.class.getName());
