@@ -11,16 +11,16 @@ import org.kohsuke.stapler.QueryParameter;
  * Example of Jenkins global configuration.
  */
 @Extension
-public class SampleConfiguration extends GlobalConfiguration {
+public class GlobalListenerConfiguration extends GlobalConfiguration {
 
     /** @return the singleton instance */
-    public static SampleConfiguration get() {
-        return GlobalConfiguration.all().get(SampleConfiguration.class);
+    public static GlobalListenerConfiguration get() {
+        return GlobalConfiguration.all().get(GlobalListenerConfiguration.class);
     }
 
     private String label;
 
-    public SampleConfiguration() {
+    public GlobalListenerConfiguration() {
         // When Jenkins is restarted, load any saved configuration from disk.
         load();
     }

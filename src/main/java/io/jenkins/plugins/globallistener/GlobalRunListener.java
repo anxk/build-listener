@@ -16,7 +16,7 @@ public class GlobalRunListener extends RunListener<Run<?, ?>> {
 	public void onStarted(Run<?, ?> run, TaskListener listener) {
 		String name = run.getDisplayName();
 		Logger logger = Logger.getLogger("startLogger");
-		String label = SampleConfiguration.get().getLabel();
+		String label = GlobalListenerConfiguration.get().getLabel();
 		logger.warning(label + " : " + name + " is starting");
 	}
 
@@ -30,7 +30,7 @@ public class GlobalRunListener extends RunListener<Run<?, ?>> {
 			resultString = result.toString();
 		}
 		Logger logger = Logger.getLogger("CompleteLogger");
-		String label = SampleConfiguration.get().getLabel();
+		String label = GlobalListenerConfiguration.get().getLabel();
 		logger.warning(label + " : " + name + " is completed with result: " + resultString);
 	}
 }
