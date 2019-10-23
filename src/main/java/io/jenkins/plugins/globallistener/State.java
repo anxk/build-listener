@@ -1,6 +1,8 @@
 package io.jenkins.plugins.globallistener;
 
-public class State {
-    private String started = "SRARTED";
-    private String 
+import java.util.Map;
+
+public interface State {
+    public String getId();
+    public Map<String, String> getDescription();
 }

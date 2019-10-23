@@ -5,12 +5,10 @@ import net.sf.json.JSONObject;
 public class Event {
 
     private long timestamp;
-    private String name;
-    private String state;
+    private State state;
 
-    public Event(String name, String state) {
+    public Event(State state) {
         this.timestamp = System.currentTimeMillis();
-        this.name = name;
         this.state = state;
     }
 
@@ -18,11 +16,7 @@ public class Event {
         return timestamp; 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getState() {
+    public State getState() {
         return state;
     }
 

@@ -1,22 +1,20 @@
 package io.jenkins.plugins.globallistener;
 
-import java.util.logging.Logger;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.charset.UnsupportedCharsetException;
-import java.util.Map;
 import java.util.logging.Level;
-import java.util.Map.Entry; 
+import java.util.logging.Logger;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.StatusLine;
 
+// TODO: http post in thread.
 public class HTTPPublisher {
 
     private static Logger LOGGER = Logger.getLogger(HTTPPublisher.class.getName());
@@ -42,14 +40,14 @@ public class HTTPPublisher {
             try {
                 CloseableHttpResponse rsp = httpclient.execute(req);
                 StatusLine status = rsp.getStatusLine();
-                LOGGER.log(Level.INFO, "Status line: {}", status);
+                LOGGER.log(Level.INFO, "Status line: ", status);
             } catch (ClientProtocolException e) {
-                LOGGER.log(Level.WARNING, "Protocol error: {}", e.getMessage());
+                LOGGER.log(Level.WARNING, "Protocol error", e);
             } catch (IOException e) {
-                LOGGER.log(Level.WARNING, "A problem occurred or The connection was aborted: {}", e.getMessage());
+                LOGGER.log(Level.WARNING, "A problem occurred or The connection was aborted", e);
             }
         } catch (UnsupportedCharsetException e) {
-            LOGGER.log(Level.WARNING, "Unsupported charset: {}", e.getMessage());
+            LOGGER.log(Level.WARNING, "Unsupported charset", e);
         }
     }
 }
