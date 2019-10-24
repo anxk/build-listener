@@ -14,23 +14,13 @@ import jenkins.model.Jenkins;
 
 public class RunState implements ItemState {
 
-    private static Logger LOGGER = Logger.getLogger(HTTPPublisher.class.getName());
-    private String id;
+    private static Logger LOGGER = Logger.getLogger(ItemState.class.getName());
     private String name;
     private Map<String, String> description;
 
     RunState(Run<?, ?> run) {
-        setId();
         setName(run);
         setDescription(run);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    private void setId() {
-        this.id =  UUID.randomUUID().toString();
     }
 
     public Map<String, String> getDescription() {
@@ -64,19 +54,20 @@ public class RunState implements ItemState {
     }
 
     private String getUri(Run<?, ?> run) {
-        String uri = "";
+        StringBuilder uri = new StringBuilder();
         try {
             String rootUrl = Jenkins.get().getRootUrl();
             if (rootUrl != null) {
-                uri = rootUrl + run.getUrl();
+                uri.append(rootUrl);
+                uri.append(run.getUrl());
             } else {
                 LOGGER.log(Level.WARNING , "Jenkins root url was not configured");
-                uri = run.getUrl();
+                uri.append(run.getUrl());
             }
         } catch (IllegalStateException e) {
             LOGGER.log(Level.WARNING , "", e);
         }
-        return uri;
+        return uri.toString();
     }
 
     private String getCauses(Run<?, ?> run) {

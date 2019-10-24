@@ -1,5 +1,8 @@
 package io.jenkins.plugins.simplenotification;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
@@ -9,6 +12,7 @@ import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 
 public class Endpoint extends AbstractDescribableImpl<Endpoint> {
 
@@ -68,31 +72,11 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
         return itemType;
     }
 
-    public FormValidation doCheckUrl(@QueryParameter String value) {
-        if (StringUtils.isEmpty(value)) {
-            return FormValidation.warning("Please specify a url.");
-        }
-        return FormValidation.ok();
-    }
-
-    public FormValidation doCheckInclude(@QueryParameter String value) {
-        if (!enableRegex && !Utils.isValidGlob(value)) {
-            return FormValidation.warning("Invald glob expression.");
-        }
-        if (enableRegex && !Utils.isValidRegex(value)) {
-            return FormValidation.warning("Invald reguler expression.");
-        }
-        return FormValidation.ok();
-    }
-
-    public FormValidation doCheckExclude(@QueryParameter String value) {
-        if (!enableRegex && !Utils.isValidGlob(value)) {
-            return FormValidation.warning("Invald glob expression.");
-        }
-        if (enableRegex && !Utils.isValidRegex(value)) {
-            return FormValidation.warning("Invald reguler expression.");
-        }
-        return FormValidation.ok();
+    public static List<String> getItemTypes() {
+        List<String> itemTypes =  new ArrayList();
+        itemTypes.add("Job");
+        itemTypes.add("Agent");
+        return itemTypes;
     }
 
     @Extension
@@ -100,6 +84,13 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
         @Override
         public String getDisplayName() {
             return "";
+        }
+        public ListBoxModel doFillItemTypeItems() {
+            ListBoxModel itemTypes = new ListBoxModel();
+            for (String itemType : getItemTypes()) {
+                itemTypes.add(itemType);
+            }
+            return itemTypes;
         }
     }
 }

@@ -6,8 +6,8 @@
             <f:repeatable field="endpoints" header="${%Endpoint}" add="${%Add Endpoint}">
                 <table width="100%">
                     <br/>
-                    <f:entry field="itemType" title="Item Type" description="" >
-                        <select class="setting-input" name="item type">
+                    <f:entry field="itemType" title="Item Type" name="itemType" >
+                        <select name="itemType">
                             <f:option value="Job">Job</f:option>
                             <f:option value="Agent">Agent</f:option>
                         </select>

@@ -9,28 +9,17 @@ import hudson.slaves.OfflineCause;
 
 public class NodeState implements ItemState {
 
-    private String id;
     private String name;
     private Map<String, String> description;
 
     public NodeState(Computer c) {
-        setId();
         setName(c);
         setDescription(c);
     }
 
     public NodeState(Computer c, OfflineCause cause) {
-        setId();
         setName(c);
         setDescription(c, cause);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    private void setId() {
-        this.id =  UUID.randomUUID().toString();
     }
 
     public Map<String, String> getDescription() {
@@ -41,6 +30,7 @@ public class NodeState implements ItemState {
         Map<String, String> description = new HashMap<>();
         description.put("name", c.getName());
         description.put("uri", c.getUrl());
+        description.put("isOnline", "true");
         this.description = description;
     }
 
@@ -48,6 +38,7 @@ public class NodeState implements ItemState {
         Map<String, String> description = new HashMap<>();
         description.put("name", c.getName());
         description.put("uri", c.getUrl());
+        description.put("isOnline", "false");
         description.put("cause", c.getOfflineCauseReason());
         this.description = description;
     }
