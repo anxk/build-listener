@@ -1,4 +1,4 @@
-package io.jenkins.plugins.globallistener;
+package io.jenkins.plugins.simplenotification;
 
 import java.io.IOException;
 import java.nio.charset.UnsupportedCharsetException;
@@ -14,15 +14,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.StatusLine;
 
-/**
- * TODO: do the job in background thread.
- */
 public class HTTPPublisher {
 
     private static Logger LOGGER = Logger.getLogger(HTTPPublisher.class.getName());
-    private int socketTimeout = 5000;
-    private int connectTimeout = 5000;
-    private int requestTimeout = 5000;
+    private int socketTimeout = Utils.socketTimeout;
+    private int connectTimeout = Utils.connectTimeout;
+    private int requestTimeout = Utils.requestTimeout;
 
     public void publish(String url, Event event) {
 

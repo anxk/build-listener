@@ -1,3 +1,3 @@
-Global Listener
+## Simple Notification
 
-This plugin provides ability to get notifications in the scope of Jenkins.
+This plugin allows sending running Jobs status or Agent status notifications in the whole scope of Jenkins.

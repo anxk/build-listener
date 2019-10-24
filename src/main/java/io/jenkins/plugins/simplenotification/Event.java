@@ -1,13 +1,13 @@
-package io.jenkins.plugins.globallistener;
+package io.jenkins.plugins.simplenotification;
 
 import net.sf.json.JSONObject; 
 
 public class Event {
 
     private long timestamp;
-    private State state;
+    private ItemState state;
 
-    public Event(State state) {
+    public Event(ItemState state) {
         this.timestamp = System.currentTimeMillis();
         this.state = state;
     }
@@ -16,7 +16,7 @@ public class Event {
         return timestamp; 
     }
 
-    public State getState() {
+    public ItemState getState() {
         return state;
     }
 

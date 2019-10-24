@@ -1,4 +1,4 @@
-package io.jenkins.plugins.globallistener;
+package io.jenkins.plugins.simplenotification;
 
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -12,14 +12,16 @@ import hudson.model.Run;
 import hudson.model.Result;
 import jenkins.model.Jenkins;
 
-public class RunState implements State {
+public class RunState implements ItemState {
 
     private static Logger LOGGER = Logger.getLogger(HTTPPublisher.class.getName());
     private String id;
+    private String name;
     private Map<String, String> description;
 
     RunState(Run<?, ?> run) {
         setId();
+        setName(run);
         setDescription(run);
     }
 
@@ -30,6 +32,7 @@ public class RunState implements State {
     private void setId() {
         this.id =  UUID.randomUUID().toString();
     }
+
     public Map<String, String> getDescription() {
         return description;
     }
@@ -42,6 +45,14 @@ public class RunState implements State {
         description.put("result", getResult(run));
         description.put("duration", getDuration(run));
         this.description = description;
+    }
+
+    private void setName(Run<?, ?> run) {
+        this.name = getFullName(run);
+    }
+
+    public String getName() {
+        return name;
     }
 
     private String getFullName(Run<?, ?> run) {
