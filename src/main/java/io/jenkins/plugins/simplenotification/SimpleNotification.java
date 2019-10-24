@@ -33,7 +33,7 @@ public class SimpleNotification extends GlobalConfiguration {
         List<Endpoint> endpoints = SimpleNotification.get().getEndpoints();
 		for (Endpoint endpoint : endpoints) {
 			if (isMatch(event, endpoint)) {
-                String url = endpoint.getUrl();
+                                String url = endpoint.getUrl();
 				new HTTPPublisher().publish(url, event);
 			}
 		}
