@@ -8,6 +8,6 @@
 <p align="center">
 	<img src="images/configuration.png" alt="configuration.png"  width=90% height=90%>
 	<p align="center">
-		<em>example</em>
+		<em>配置示例</em>
 	</p>
 </p>
