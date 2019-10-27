@@ -1,6 +1,4 @@
-package io.jenkins.plugins.simplenotification;
-
-import java.util.List;
+package io.jenkins.plugins.simplenodenotification;
 
 import hudson.Extension;
 import hudson.model.Computer;
@@ -14,15 +12,15 @@ public class SimpleNodeListener extends ComputerListener {
 
     @Override
     public void onOffline(Computer c, OfflineCause cause) {
-        Event event = new Event(new NodeState(c, cause));
-		SimpleNotification.notify(event);
+        Event event = new Event(new NodeState(c));
+		SimpleNodeNotification.boardcast(event);
     }
 
     @Override
     public void onOnline(Computer c, TaskListener listener) {
 		if (c instanceof SlaveComputer) {
 			Event event = new Event(new NodeState(c));
-			SimpleNotification.notify(event);
+			SimpleNodeNotification.boardcast(event);
 		}
 	}
 }
