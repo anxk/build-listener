@@ -1,3 +1,3 @@
-## Simple Notification
+## Simple Node Notification Plugin
 
-这个插件能够将Jenkins中所有的Job构建状态或者节点的状态发送到指定的HTTP端。
+这个插件能够将Jenkins中所有节点的状态的变化发送到指定的 HTTP Endpoint。
