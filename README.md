@@ -3,7 +3,7 @@
 This plugin allows sending node status notifications in the whole scope of Jenkins.
 
 Go to manage > configure > Simple Node Notification Plugin, add a http endpoint by specify
-its URL and node regular expression, for example:
+its URL and Filter (Java regular expression to select nodes), for example:
 
 Configure Example:
 <p align="center">
