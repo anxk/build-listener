@@ -3,7 +3,11 @@ package io.jenkins.plugins.simplenodenotification;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
-public class Endpoint {
+import hudson.Extension;
+import hudson.model.AbstractDescribableImpl;
+import hudson.model.Descriptor;
+
+public class Endpoint extends AbstractDescribableImpl<Endpoint>{
 
     private String url;
     private String regex;
@@ -30,6 +34,16 @@ public class Endpoint {
 
     public String getRegex() {
         return regex;
+    }
+
+    @Extension
+    public static final class DescriptorImpl extends Descriptor<Endpoint> {
+
+        @Override
+        public String getDisplayName() {
+            return "";
+        }
+
     }
 
 }

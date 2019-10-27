@@ -12,8 +12,10 @@ public class SimpleNodeListener extends ComputerListener {
 
     @Override
     public void onOffline(Computer c, OfflineCause cause) {
-        Event event = new Event(new NodeState(c));
-		SimpleNodeNotification.boardcast(event);
+        if (c instanceof SlaveComputer) {
+            Event event = new Event(new NodeState(c));
+            SimpleNodeNotification.boardcast(event);
+        }
     }
 
     @Override
@@ -22,5 +24,6 @@ public class SimpleNodeListener extends ComputerListener {
 			Event event = new Event(new NodeState(c));
 			SimpleNodeNotification.boardcast(event);
 		}
-	}
+    }
+    
 }
