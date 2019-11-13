@@ -1,15 +1,11 @@
-## Simple Node Notification Plugin
+## Node Notification Plugin
 
 This plugin allows sending node status notifications in the whole scope of Jenkins.
 
+### Installation
+
 ### Configuration
 
-Go to manage > configure > Simple Node Notification Plugin, add a http endpoint by specifying
-its URL and Filter (Java regular expression to select nodes), for example:
+* Global Configuration
 
-<p align="center">
-	<img src="images/configuration.png" alt="configuration.png"  width=90% height=90%>
-	<p align="center">
-		<em>example</em>
-	</p>
-</p>
+* Node Configuration
