@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:section title="${%Simple Node Notification Plugin}">
+    <f:section title="${%Node Notification Plugin}">
         <f:entry title="${%Endpoints}">
-            <f:repeatable field="endpoints" header="${%Endpoint}" add="${%Add Endpoint}">
+            <f:repeatable field="endpoints" add="${%Add Endpoint}">
                 <table width="100%">
-                    <br/>
                     <f:entry field="url" title="${%URL}" description="">
-                        <f:textbox default=""/>
-                    </f:entry>
-                    <f:entry field="regex" title="${%Filter}" description="">
                         <f:textbox default=""/>
                     </f:entry>
                     <f:entry title="">
