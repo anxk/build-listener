@@ -38,7 +38,7 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
 
         @Override
 		public String getDisplayName() {
-			return "Offline Notification";
+			return "Node Notification";
 		}
 
         @Override
@@ -48,7 +48,7 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
 
     }
 
-    public static class Entry {
+    public static class Entry extends AbstractDescribableImpl<Entry> {
 
         private String target;
         private String message;
@@ -76,7 +76,16 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
         public String getMessage() {
             return message;
         }
-        
+
+        @Extension
+        public static class DescriptorImpl extends Descriptor<Entry> {
+
+            public String getDisplayName() {
+                return "";
+            }
+
+        }
+
     }
 
 }
