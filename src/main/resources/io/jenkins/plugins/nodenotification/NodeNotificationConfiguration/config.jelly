@@ -6,7 +6,10 @@
             <f:repeatable field="endpoints" add="${%Add Endpoint}">
                 <table width="100%">
                     <f:entry field="type" title="${%Type}" description="">
-                        <f:textbox default=""/>
+                        <select class="setting-input" name="type">
+                            <f:option value="sms" selected="${endpoint.getType()=='sms'}">SMS</f:option>
+                            <f:option value="email" selected="${endpoint.getType()=='email'}">Email</f:option>
+                        </select>
                     </f:entry>
                     <f:entry field="url" title="${%URL}" description="">
                         <f:textbox default=""/>
