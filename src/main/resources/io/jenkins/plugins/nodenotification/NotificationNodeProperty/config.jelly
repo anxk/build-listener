@@ -3,6 +3,9 @@
 	<f:entry title="${%Entrys}">
 		<f:repeatable field="entrys">
 			<table width="100%">
+				<f:entry field="type" title="${%Type}">
+					<f:textbox default="" />
+				</f:entry>
 				<f:entry field="target" title="${%Target}">
 					<f:textarea default="" />
 				</f:entry>

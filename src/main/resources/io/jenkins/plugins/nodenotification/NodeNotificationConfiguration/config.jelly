@@ -5,6 +5,9 @@
         <f:entry title="${%Endpoints}">
             <f:repeatable field="endpoints" add="${%Add Endpoint}">
                 <table width="100%">
+                    <f:entry field="type" title="${%Type}" description="">
+                        <f:textbox default=""/>
+                    </f:entry>
                     <f:entry field="url" title="${%URL}" description="">
                         <f:textbox default=""/>
                     </f:entry>

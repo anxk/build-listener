@@ -50,13 +50,24 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
 
     public static class Entry extends AbstractDescribableImpl<Entry> {
 
+        private String type;
         private String target;
         private String message;
 
         @DataBoundConstructor
-        public Entry(String target, String message) {
+        public Entry(String type, String target, String message) {
+            this.type = type;
             this.target = target;
             this.message = message;
+        }
+
+        @DataBoundSetter
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
         }
 
         @DataBoundSetter

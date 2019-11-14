@@ -22,5 +22,5 @@ public class OfflineMonitor extends ComputerListener {
             }
         }
     }
-    
+
 }
