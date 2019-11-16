@@ -10,10 +10,10 @@
 						<f:option value="email" selected="${entry.getType()=='email'}">Email</f:option>
 					</select>
 				</f:entry>
-				<f:entry field="target" title="${%Target}">
+				<f:entry field="recipients" title="${%Recipients}">
 					<f:textarea default="" />
 				</f:entry>
-				<f:entry field="message" title="${%Message}">
+				<f:entry field="message" title="${%Customized Message}">
 					<f:textarea default="" />
 				</f:entry>
 				<f:entry title="">

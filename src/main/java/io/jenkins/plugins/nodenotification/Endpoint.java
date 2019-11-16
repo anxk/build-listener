@@ -11,10 +11,13 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
 
     private String type;
     private String url;
+    private String playloadTemplate;
 
     @DataBoundConstructor
-    public Endpoint(String type, String url) {
+    public Endpoint(String type, String url, String playloadTemplate) {
+        this.type = type;
         this.url = url;
+        this.playloadTemplate = playloadTemplate;
     }
 
     @DataBoundSetter
@@ -33,6 +36,15 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
 
     public String getUrl() {
         return url;
+    }
+
+    @DataBoundSetter
+    public void setPlayloadTemplate(String playloadTemplate) {
+        this.playloadTemplate = playloadTemplate;
+    }
+
+    public String getPlayloadTemplate() {
+        return playloadTemplate;
     }
 
     @Extension

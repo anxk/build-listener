@@ -17,7 +17,8 @@ public class OfflineMonitor extends ComputerListener {
             if (node != null) {
                 NotificationNodeProperty p = node.getNodeProperty(NotificationNodeProperty.class);
                 if(p != null) {
-                    Publisher.publish(cause.toString(), c.getUrl(), p.getEntrys());
+                    new MailPublisher().publish(cause.toString(), c, p.getEntrys());
+                    new SMSPublisher().publish(cause.toString(), c, p.getEntrys());
                 }
             }
         }

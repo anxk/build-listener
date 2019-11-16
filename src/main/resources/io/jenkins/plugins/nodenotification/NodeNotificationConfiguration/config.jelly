@@ -11,8 +11,11 @@
                             <f:option value="email" selected="${endpoint.getType()=='email'}">Email</f:option>
                         </select>
                     </f:entry>
-                    <f:entry field="url" title="${%URL}" description="">
+                    <f:entry field="url" title="${%SMS API URL}" description="">
                         <f:textbox default=""/>
+                    </f:entry>
+                    <f:entry field="playloadTemplate" title="${%Playload Template}" description="">
+                        <f:textarea default=""/>
                     </f:entry>
                     <f:entry title="">
                         <div align="right">

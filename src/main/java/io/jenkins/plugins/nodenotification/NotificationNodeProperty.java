@@ -51,13 +51,13 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
     public static class Entry extends AbstractDescribableImpl<Entry> {
 
         private String type;
-        private String target;
+        private String recipients;
         private String message;
 
         @DataBoundConstructor
-        public Entry(String type, String target, String message) {
+        public Entry(String type, String recipients, String message) {
             this.type = type;
-            this.target = target;
+            this.recipients = recipients;
             this.message = message;
         }
 
@@ -71,12 +71,12 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
         }
 
         @DataBoundSetter
-        public void setTarget(String target) {
-            this.target = target;
+        public void setRecipients(String recipients) {
+            this.recipients = recipients;
         }
 
-        public String getTarget() {
-            return target;
+        public String getRecipients() {
+            return recipients;
         }
 
         @DataBoundSetter
