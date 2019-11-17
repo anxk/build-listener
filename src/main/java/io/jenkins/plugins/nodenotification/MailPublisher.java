@@ -18,19 +18,20 @@ import javax.mail.internet.MimeMessage;
 import com.google.common.base.Splitter;
 
 import hudson.model.Computer;
+import hudson.slaves.OfflineCause;
 import hudson.tasks.Mailer;
-import io.jenkins.plugins.nodenotification.NotificationNodeProperty.Entry;
+import jenkins.model.Jenkins;
 import jenkins.model.JenkinsLocationConfiguration;
 
 public class MailPublisher {
 
     private static Logger LOGGER = Logger.getLogger(MailPublisher.class.getName());
 
-    public void publish(String cause, Computer c, List<NotificationNodeProperty.Entry> entrys) {
+    public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
         for (Entry entry : entrys) {
-            if (entry.getType() == "email") {
+            if (entry.getType().equals("email")) {
                 for (Endpoint endpoint : NodeNotificationConfiguration.get().getEndpoints()) {
-                    if (endpoint.getType() == "email") {
+                    if (endpoint.getType().equals("email")) {
                         _publish(cause, c, entry);
                     }
                 }
@@ -38,7 +39,7 @@ public class MailPublisher {
         }
     }
 
-    public void _publish(String cause, Computer c, NotificationNodeProperty.Entry entry) {
+    public void _publish(OfflineCause cause, Computer c, Entry entry) {
         Session session = new Mailer.DescriptorImpl().createSession();
         Message message = new MimeMessage(session);
         try {
@@ -51,6 +52,7 @@ public class MailPublisher {
         }
         try {
             Transport.send(message, message.getAllRecipients());
+            LOGGER.info("Send offline event successfully");
         } catch (Exception e) {
             LOGGER.log(Level.WARNING, "Failed to send email for " + c.getName(), e);
         }
@@ -63,18 +65,33 @@ public class MailPublisher {
         return from;
     }
 
-    public String createSubject(String cause, Computer c, NotificationNodeProperty.Entry entry) {
+    public String createSubject(OfflineCause cause, Computer c, Entry entry) {
         StringBuilder subject = new StringBuilder();
         subject.append("Attention! " + c.getName() + " is offline");
         return subject.toString();
     }
 
-    public String createBody(String cause, Computer c, NotificationNodeProperty.Entry entry) {
+    public String createBody(OfflineCause cause, Computer c, Entry entry) {
+        Jenkins j = Jenkins.get();
+        String jenkinsRootUrl = "";
+        if (j != null) {
+            try {
+                String rootUrl = j.getRootUrl();
+                if (rootUrl != null) {
+                    jenkinsRootUrl = rootUrl;
+                }
+            } catch (IllegalStateException e) {
+                LOGGER.log(Level.WARNING, "Can not obtain jenkins root url", e);
+            }            
+        }
         StringBuilder message = new StringBuilder();
-        message.append("Offline Cause: " + cause);
         message.append("\nNode Name: " + c.getName());
-        message.append("\nNode URL: " + c.getUrl());
-        message.append("\nMessage: " + entry.getMessage());
+        message.append("\nNode Labels: " + c.getAssignedLabels());
+        message.append("\nNode URL: " + jenkinsRootUrl + c.getUrl());
+        String additionalMessage = entry.getMessage();
+        if (additionalMessage.trim().equals("")) {
+            message.append("\nMessage: " + entry.getMessage());
+        }
         return message.toString();
     }
 

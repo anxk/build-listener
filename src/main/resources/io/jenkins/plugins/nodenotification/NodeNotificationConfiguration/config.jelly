@@ -7,16 +7,18 @@
                 <table width="100%">
                     <f:entry field="type" title="${%Type}" description="">
                         <select class="setting-input" name="type">
-                            <f:option value="sms" selected="${endpoint.getType()=='sms'}">SMS</f:option>
-                            <f:option value="email" selected="${endpoint.getType()=='email'}">Email</f:option>
+                            <f:option value="sms" selected="${instance.getType()=='sms'}">SMS</f:option>
+                            <f:option value="email" selected="${instance.getType()=='email'}">Email</f:option>
                         </select>
                     </f:entry>
-                    <f:entry field="url" title="${%SMS API URL}" description="">
-                        <f:textbox default=""/>
-                    </f:entry>
-                    <f:entry field="playloadTemplate" title="${%Playload Template}" description="">
-                        <f:textarea default=""/>
-                    </f:entry>
+                    <j:if test="${instance.getType()=='sms'}">
+                        <f:entry field="url" title="${%SMS API URL}" description="">
+                            <f:textbox default=""/>
+                        </f:entry>
+                        <f:entry field="playloadTemplate" title="${%Playload Template}" description="">
+                            <f:textarea default=""/>
+                        </f:entry>
+                    </j:if>
                     <f:entry title="">
                         <div align="right">
                             <f:repeatableDeleteButton value="${%Remove Endpoint}"/>

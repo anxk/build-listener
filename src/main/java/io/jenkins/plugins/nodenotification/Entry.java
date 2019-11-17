@@ -13,20 +13,18 @@ import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
-public class Endpoint extends AbstractDescribableImpl<Endpoint> {
+public class Entry extends AbstractDescribableImpl<Entry> {
 
     private String type;
-    private String url;
-    private String playloadTemplate;
+    private String recipients;
+    private String message;
 
     @DataBoundConstructor
-    public Endpoint(String type, String url, String playloadTemplate) {
+    public Entry(String type, String recipients, String message) {
         this.type = type;
-        this.url = url;
-        this.playloadTemplate = playloadTemplate;
+        this.recipients = recipients;
+        this.message = message;
     }
 
     @DataBoundSetter
@@ -39,47 +37,30 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
     }
 
     @DataBoundSetter
-    public void setUrl(String url) {
-        this.url = url;
+    public void setRecipients(String recipients) {
+        this.recipients = recipients;
     }
 
-    public String getUrl() {
-        return url;
+    public String getRecipients() {
+        return recipients;
     }
 
     @DataBoundSetter
-    public void setPlayloadTemplate(String playloadTemplate) {
-        this.playloadTemplate = playloadTemplate;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getPlayloadTemplate() {
-        return playloadTemplate;
+    public String getMessage() {
+        return message;
     }
 
     @Extension
-    public static final class DescriptorImpl extends Descriptor<Endpoint> {
+    public static class DescriptorImpl extends Descriptor<Entry> {
 
         String[] types = new String[]{"sms", "email"};
-
-        @Override
+        
         public String getDisplayName() {
             return "";
-        }
-
-        public FormValidation doCheckPlayloadTemplate(@QueryParameter String value) throws IOException, ServletException {
-            try {
-                JSONObject.fromObject(value);
-            } catch (JSONException e) {
-                return FormValidation.error("Please input valid json string.");
-            }
-            return FormValidation.ok();
-        }
-
-        public FormValidation doCheckUrl(@QueryParameter String value) throws IOException, ServletException {
-            if (value.startsWith("http") || value.startsWith("https")) {
-                return FormValidation.ok();
-            }
-            return FormValidation.error("Please input valid url.");
         }
 
         public FormValidation doCheckType(@QueryParameter String value) throws IOException, ServletException {

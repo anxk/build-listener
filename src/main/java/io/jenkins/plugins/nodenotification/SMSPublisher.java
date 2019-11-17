@@ -18,7 +18,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import hudson.model.Computer;
-import io.jenkins.plugins.nodenotification.NotificationNodeProperty.Entry;
+import hudson.slaves.OfflineCause;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 
 public class SMSPublisher {
@@ -27,11 +28,11 @@ public class SMSPublisher {
     private static String DEFAULT_PLATLOAD_RECIPIENT_KEY = "RECIPIENT";
     private static String DEFAULT_PLAYLOAD_MESSAGE_KEY = "MESSAGE";
 
-    public void publish(String cause, Computer c, List<NotificationNodeProperty.Entry> entrys) {
+    public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
         for (Entry entry : entrys) {
-            if (entry.getType() == "sms") {
+            if (entry.getType().equals("sms")) {
                 for (Endpoint endpoint: NodeNotificationConfiguration.get().getEndpoints()) {
-                    if (endpoint.getType() == "sms") {
+                    if (endpoint.getType().equals("sms")) {
                         List<String> playloads = createPlayloads(endpoint.getPlayloadTemplate(), cause, entry, c);
                         for (String playload : playloads) {
                             _publish(endpoint.getUrl(), playload);
@@ -42,12 +43,27 @@ public class SMSPublisher {
         }
     }
 
-    public String createMessage(String cause, Computer c, NotificationNodeProperty.Entry entry) {
+    public String createMessage(OfflineCause cause, Computer c, Entry entry) {
+        Jenkins j = Jenkins.get();
+        String jenkinsRootUrl = "";
+        if (j != null) {
+            try {
+                String rootUrl = j.getRootUrl();
+                if (rootUrl != null) {
+                    jenkinsRootUrl = rootUrl;
+                }
+            } catch (IllegalStateException e) {
+                LOGGER.log(Level.WARNING, "Can not obtain jenkins root url", e);
+            }            
+        }
         StringBuilder message = new StringBuilder();
-        message.append("Offline Cause: " + cause);
         message.append("\nNode Name: " + c.getName());
-        message.append("\nNode URL: " + c.getUrl());
-        message.append("\nMessage: " + entry.getMessage());
+        message.append("\nNode Labels: " + c.getAssignedLabels());
+        message.append("\nNode URL: " + jenkinsRootUrl + c.getUrl());
+        String additionalMessage = entry.getMessage();
+        if (additionalMessage.trim().equals("")) {
+            message.append("\nMessage: " + entry.getMessage());
+        }
         return message.toString();
     }
 
@@ -72,7 +88,7 @@ public class SMSPublisher {
         return to;
     }
 
-    public List<String> createPlayloads(String playloadTemplate, String cause, NotificationNodeProperty.Entry entry, Computer c) {
+    public List<String> createPlayloads(String playloadTemplate, OfflineCause cause, Entry entry, Computer c) {
         JSONObject playloadTemplateJson = JSONObject.fromObject(playloadTemplate);
         List<String> playloads = new ArrayList<>();
         for (String recipient : createRecipients(entry.getRecipients(), c)) {
