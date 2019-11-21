@@ -9,33 +9,20 @@ import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.QueryParameter;
 
 import hudson.Extension;
-import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
-import hudson.util.ListBoxModel;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
-public class Endpoint extends AbstractDescribableImpl<Endpoint> {
+public class SMSEndpoint extends AbstractEndpoint {
 
-    private String type;
     private String url;
     private String playloadTemplate;
 
     @DataBoundConstructor
-    public Endpoint(String type, String url, String playloadTemplate) {
-        this.type = type;
+    public SMSEndpoint(String url, String playloadTemplate) {
         this.url = url;
         this.playloadTemplate = playloadTemplate;
-    }
-
-    @DataBoundSetter
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
     }
 
     @DataBoundSetter
@@ -57,13 +44,11 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
     }
 
     @Extension
-    public static final class DescriptorImpl extends Descriptor<Endpoint> {
-
-        String[] types = new String[]{"sms", "email"};
+    public static final class DescriptorImpl extends Descriptor<AbstractEndpoint> {
 
         @Override
         public String getDisplayName() {
-            return "";
+            return "SMS";
         }
 
         public FormValidation doCheckPlayloadTemplate(@QueryParameter String value) throws IOException, ServletException {
@@ -80,21 +65,6 @@ public class Endpoint extends AbstractDescribableImpl<Endpoint> {
                 return FormValidation.ok();
             }
             return FormValidation.error("Please input valid url.");
-        }
-
-        public FormValidation doCheckType(@QueryParameter String value) throws IOException, ServletException {
-            if (value.equals("sms") || value.equals("email")) {
-                return FormValidation.ok();
-            }
-            return FormValidation.error("Please input valid type, sms or email.");
-        }
-
-        public ListBoxModel doFillTypeItems() {
-            ListBoxModel items = new ListBoxModel();
-            for (String type : types) {
-                items.add(type);
-            }
-            return items;
         }
 
     }

@@ -1,6 +1,6 @@
 package io.jenkins.plugins.nodenotification;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -12,14 +12,13 @@ import hudson.slaves.NodeProperty;
 import hudson.slaves.NodePropertyDescriptor;
 import jenkins.model.Jenkins;
 
-@Extension
 public class NotificationNodeProperty extends NodeProperty<Node> {
 
     private List<Entry> entrys;
 
     @DataBoundConstructor
     public NotificationNodeProperty() {
-        this.entrys = new ArrayList<Entry>();
+        this.entrys = Collections.emptyList();
     }
 
     @DataBoundSetter
@@ -42,6 +41,11 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
         @Override
         public boolean isApplicable(Class<? extends Node> nodeType) {
             return nodeType != Jenkins.class;
+        }
+
+        @Override
+        public boolean isApplicableAsGlobal() {
+            return false;
         }
 
     }

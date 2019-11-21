@@ -12,28 +12,28 @@ import org.kohsuke.stapler.StaplerRequest;
 @Extension
 public class NodeNotificationConfiguration extends GlobalConfiguration {
 
-    private List<Endpoint> endpoints;
+    private List<AbstractEndpoint> endpoints;
 
     public static NodeNotificationConfiguration get() {
         return GlobalConfiguration.all().get(NodeNotificationConfiguration.class);
     }
 
     public NodeNotificationConfiguration() {
-        this.endpoints = new ArrayList<Endpoint>();
+        this.endpoints = new ArrayList<AbstractEndpoint>();
         load();
     }
 
     @Override
     public boolean configure(final StaplerRequest req, final JSONObject formData) {
-        setEndpoints(req.bindJSONToList(Endpoint.class, formData.get("endpoints")));
+        setEndpoints(req.bindJSONToList(AbstractEndpoint.class, formData.get("endpoints")));
         return false;
     }
 
-    public List<Endpoint> getEndpoints() {
+    public List<AbstractEndpoint> getEndpoints() {
         return endpoints;
     }
 
-    public void setEndpoints(List<Endpoint> endpoints) {
+    public void setEndpoints(List<AbstractEndpoint> endpoints) {
         this.endpoints = endpoints;
         save();
     }

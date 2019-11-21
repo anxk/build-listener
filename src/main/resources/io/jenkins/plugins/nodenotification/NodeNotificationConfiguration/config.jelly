@@ -1,31 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
     <f:section title="${%Node Notification Plugin}">
-        <f:entry title="${%Endpoints}">
-            <f:repeatable field="endpoints" add="${%Add Endpoint}">
-                <table width="100%">
-                    <f:entry field="type" title="${%Type}" description="">
-                        <select class="setting-input" name="type">
-                            <f:option value="sms" selected="${instance.getType()=='sms'}">SMS</f:option>
-                            <f:option value="email" selected="${instance.getType()=='email'}">Email</f:option>
-                        </select>
-                    </f:entry>
-                    <j:if test="${instance.getType()=='sms'}">
-                        <f:entry field="url" title="${%SMS API URL}" description="">
-                            <f:textbox default=""/>
-                        </f:entry>
-                        <f:entry field="playloadTemplate" title="${%Playload Template}" description="">
-                            <f:textarea default=""/>
-                        </f:entry>
-                    </j:if>
-                    <f:entry title="">
-                        <div align="right">
-                            <f:repeatableDeleteButton value="${%Remove Endpoint}"/>
-                        </div>
-                    </f:entry>
-                </table>
-            </f:repeatable>
-        </f:entry>
+        <f:block>
+            <div align="right">
+                <f:repeatableHeteroProperty field="endpoints" hasHeader="true"/>
+            </div>
+        </f:block>
     </f:section>
 </j:jelly>

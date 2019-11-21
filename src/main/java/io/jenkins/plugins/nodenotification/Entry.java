@@ -12,7 +12,6 @@ import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
-import hudson.util.ListBoxModel;
 
 public class Entry extends AbstractDescribableImpl<Entry> {
 
@@ -56,8 +55,6 @@ public class Entry extends AbstractDescribableImpl<Entry> {
 
     @Extension
     public static class DescriptorImpl extends Descriptor<Entry> {
-
-        String[] types = new String[]{"sms", "email"};
         
         public String getDisplayName() {
             return "";
@@ -68,14 +65,6 @@ public class Entry extends AbstractDescribableImpl<Entry> {
                 return FormValidation.ok();
             }
             return FormValidation.error("Please input valid type, sms or email.");
-        }
-
-        public ListBoxModel doFillTypeItems() {
-            ListBoxModel items = new ListBoxModel();
-            for (String type : types) {
-                items.add(type);
-            }
-            return items;
         }
 
     }

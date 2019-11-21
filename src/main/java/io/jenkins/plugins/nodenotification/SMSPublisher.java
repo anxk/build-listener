@@ -31,11 +31,11 @@ public class SMSPublisher {
     public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
         for (Entry entry : entrys) {
             if (entry.getType().equals("sms")) {
-                for (Endpoint endpoint: NodeNotificationConfiguration.get().getEndpoints()) {
-                    if (endpoint.getType().equals("sms")) {
-                        List<String> playloads = createPlayloads(endpoint.getPlayloadTemplate(), cause, entry, c);
+                for (AbstractEndpoint endpoint: NodeNotificationConfiguration.get().getEndpoints()) {
+                    if (endpoint.getDescriptor().getDisplayName().equals("SMS")) {
+                        List<String> playloads = createPlayloads(((SMSEndpoint) endpoint).getPlayloadTemplate(), cause, entry, c);
                         for (String playload : playloads) {
-                            _publish(endpoint.getUrl(), playload);
+                            _publish(((SMSEndpoint) endpoint).getUrl(), playload);
                         }
                     }
                 }
@@ -54,7 +54,7 @@ public class SMSPublisher {
                 }
             } catch (IllegalStateException e) {
                 LOGGER.log(Level.WARNING, "Can not obtain jenkins root url", e);
-            }            
+            }
         }
         StringBuilder message = new StringBuilder();
         message.append("\nNode Name: " + c.getName());

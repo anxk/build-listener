@@ -30,8 +30,8 @@ public class MailPublisher {
     public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
         for (Entry entry : entrys) {
             if (entry.getType().equals("email")) {
-                for (Endpoint endpoint : NodeNotificationConfiguration.get().getEndpoints()) {
-                    if (endpoint.getType().equals("email")) {
+                for (AbstractEndpoint endpoint : NodeNotificationConfiguration.get().getEndpoints()) {
+                    if (endpoint.getDescriptor().getDisplayName().equals("Email")) {
                         _publish(cause, c, entry);
                     }
                 }
