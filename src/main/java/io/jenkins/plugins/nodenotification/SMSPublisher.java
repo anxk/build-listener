@@ -94,16 +94,17 @@ public class SMSPublisher {
         JSONObject playloadTemplateJson = JSONObject.fromObject(playloadTemplate);
         List<String> playloads = new ArrayList<>();
         for (String recipient : createRecipients(entry.getRecipients(), c)) {
-            Iterator<Map.Entry<String, String>> it = playloadTemplateJson.entrySet().iterator();
+            JSONObject playload = playloadTemplateJson;
+            Iterator<Map.Entry<String, String>> it = playload.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<String, String> kv = it.next();
                 if (kv.getValue().equals(DEFAULT_PLATLOAD_RECIPIENT_KEY)) {
-                    playloadTemplateJson.put(kv.getKey(), recipient);
+                    playload.put(kv.getKey(), recipient);
                 } else if (kv.getValue().equals(DEFAULT_PLAYLOAD_MESSAGE_KEY)) {
-                    playloadTemplateJson.put(kv.getKey(), createMessage(cause, c, entry));
+                    playload.put(kv.getKey(), createMessage(cause, c, entry));
                 }
             }
-            playloads.add(playloadTemplateJson.toString());
+            playloads.add(playload.toString());
         }
         return playloads;
     }
