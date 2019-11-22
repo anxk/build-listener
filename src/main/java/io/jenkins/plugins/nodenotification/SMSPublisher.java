@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -28,8 +29,8 @@ public class SMSPublisher {
     private static String DEFAULT_PLATLOAD_RECIPIENT_KEY = "RECIPIENT";
     private static String DEFAULT_PLAYLOAD_MESSAGE_KEY = "MESSAGE";
 
-    public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
-        for (Entry entry : entrys) {
+    public void publish(OfflineCause cause, Computer c, List<PropertyEntry> entrys) {
+        for (PropertyEntry entry : entrys) {
             if (entry.getType().equals("sms")) {
                 for (AbstractEndpoint endpoint: NodeNotificationConfiguration.get().getEndpoints()) {
                     if (endpoint.getDescriptor().getDisplayName().equals("SMS")) {
@@ -43,7 +44,7 @@ public class SMSPublisher {
         }
     }
 
-    public String createMessage(OfflineCause cause, Computer c, Entry entry) {
+    public String createMessage(OfflineCause cause, Computer c, PropertyEntry entry) {
         Jenkins j = Jenkins.get();
         String jenkinsRootUrl = "";
         if (j != null) {
@@ -61,7 +62,7 @@ public class SMSPublisher {
         message.append("\nNode Labels: " + c.getAssignedLabels());
         message.append("\nNode URL: " + jenkinsRootUrl + c.getUrl());
         String additionalMessage = entry.getMessage();
-        if (additionalMessage.trim().equals("")) {
+        if (!additionalMessage.trim().equals("")) {
             message.append("\nAdditional message: " + entry.getMessage());
         }
         return message.toString();
@@ -88,12 +89,20 @@ public class SMSPublisher {
         return to;
     }
 
-    public List<String> createPlayloads(String playloadTemplate, OfflineCause cause, Entry entry, Computer c) {
+    @SuppressWarnings("unchecked")
+    public List<String> createPlayloads(String playloadTemplate, OfflineCause cause, PropertyEntry entry, Computer c) {
         JSONObject playloadTemplateJson = JSONObject.fromObject(playloadTemplate);
         List<String> playloads = new ArrayList<>();
         for (String recipient : createRecipients(entry.getRecipients(), c)) {
-            playloadTemplateJson.put(DEFAULT_PLATLOAD_RECIPIENT_KEY, recipient);
-            playloadTemplateJson.put(DEFAULT_PLAYLOAD_MESSAGE_KEY, createMessage(cause, c, entry));
+            Iterator<Map.Entry<String, String>> it = playloadTemplateJson.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, String> kv = it.next();
+                if (kv.getValue().equals(DEFAULT_PLATLOAD_RECIPIENT_KEY)) {
+                    playloadTemplateJson.put(kv.getKey(), recipient);
+                } else if (kv.getValue().equals(DEFAULT_PLAYLOAD_MESSAGE_KEY)) {
+                    playloadTemplateJson.put(kv.getKey(), createMessage(cause, c, entry));
+                }
+            }
             playloads.add(playloadTemplateJson.toString());
         }
         return playloads;

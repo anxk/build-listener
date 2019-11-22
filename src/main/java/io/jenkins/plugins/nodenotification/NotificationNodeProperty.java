@@ -14,19 +14,19 @@ import jenkins.model.Jenkins;
 
 public class NotificationNodeProperty extends NodeProperty<Node> {
 
-    private List<Entry> entrys;
+    private List<PropertyEntry> entrys;
 
     @DataBoundConstructor
-    public NotificationNodeProperty(List<Entry> enrtys) {
+    public NotificationNodeProperty(List<PropertyEntry> enrtys) {
         this.entrys = new ArrayList<>();
     }
 
     @DataBoundSetter
-    public void setEntrys(List<Entry> entrys) {
+    public void setEntrys(List<PropertyEntry> entrys) {
         this.entrys = entrys;
     }
 
-    public List<Entry> getEntrys() {
+    public List<PropertyEntry> getEntrys() {
         return entrys;
     }
 

@@ -27,8 +27,8 @@ public class MailPublisher {
 
     private static Logger LOGGER = Logger.getLogger(MailPublisher.class.getName());
 
-    public void publish(OfflineCause cause, Computer c, List<Entry> entrys) {
-        for (Entry entry : entrys) {
+    public void publish(OfflineCause cause, Computer c, List<PropertyEntry> entrys) {
+        for (PropertyEntry entry : entrys) {
             if (entry.getType().equals("email")) {
                 for (AbstractEndpoint endpoint : NodeNotificationConfiguration.get().getEndpoints()) {
                     if (endpoint.getDescriptor().getDisplayName().equals("Email")) {
@@ -39,7 +39,7 @@ public class MailPublisher {
         }
     }
 
-    public void _publish(OfflineCause cause, Computer c, Entry entry) {
+    public void _publish(OfflineCause cause, Computer c, PropertyEntry entry) {
         Session session = new Mailer.DescriptorImpl().createSession();
         Message message = new MimeMessage(session);
         try {
@@ -65,13 +65,13 @@ public class MailPublisher {
         return from;
     }
 
-    public String createSubject(OfflineCause cause, Computer c, Entry entry) {
+    public String createSubject(OfflineCause cause, Computer c, PropertyEntry entry) {
         StringBuilder subject = new StringBuilder();
-        subject.append("Attention! " + c.getName() + " is offline");
+        subject.append("Jenkins node " + c.getName() + " is offline");
         return subject.toString();
     }
 
-    public String createBody(OfflineCause cause, Computer c, Entry entry) {
+    public String createBody(OfflineCause cause, Computer c, PropertyEntry entry) {
         Jenkins j = Jenkins.get();
         String jenkinsRootUrl = "";
         if (j != null) {
@@ -89,7 +89,7 @@ public class MailPublisher {
         message.append("\nNode Labels: " + c.getAssignedLabels());
         message.append("\nNode URL: " + jenkinsRootUrl + c.getUrl());
         String additionalMessage = entry.getMessage();
-        if (additionalMessage.trim().equals("")) {
+        if (!additionalMessage.trim().equals("")) {
             message.append("\nAdditional message: " + entry.getMessage());
         }
         return message.toString();
