@@ -94,7 +94,7 @@ public class SMSPublisher {
         JSONObject playloadTemplateJson = JSONObject.fromObject(playloadTemplate);
         List<String> playloads = new ArrayList<>();
         for (String recipient : createRecipients(entry.getRecipients(), c)) {
-            JSONObject playload = playloadTemplateJson;
+            JSONObject playload = JSONObject.fromObject(playloadTemplateJson);
             Iterator<Map.Entry<String, String>> it = playload.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<String, String> kv = it.next();
