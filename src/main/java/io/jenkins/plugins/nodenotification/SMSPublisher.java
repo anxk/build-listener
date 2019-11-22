@@ -62,7 +62,7 @@ public class SMSPublisher {
         message.append("\nNode URL: " + jenkinsRootUrl + c.getUrl());
         String additionalMessage = entry.getMessage();
         if (additionalMessage.trim().equals("")) {
-            message.append("\nMessage: " + entry.getMessage());
+            message.append("\nAdditional message: " + entry.getMessage());
         }
         return message.toString();
     }

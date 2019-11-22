@@ -12,6 +12,7 @@ import hudson.Extension;
 import hudson.model.AbstractDescribableImpl;
 import hudson.model.Descriptor;
 import hudson.util.FormValidation;
+import hudson.util.ListBoxModel;
 
 public class Entry extends AbstractDescribableImpl<Entry> {
 
@@ -60,11 +61,11 @@ public class Entry extends AbstractDescribableImpl<Entry> {
             return "";
         }
 
-        public FormValidation doCheckType(@QueryParameter String value) throws IOException, ServletException {
-            if (value.equals("sms") || value.equals("email")) {
-                return FormValidation.ok();
-            }
-            return FormValidation.error("Please input valid type, sms or email.");
+        public ListBoxModel doFillTypeItems() {
+            ListBoxModel items = new ListBoxModel();
+            items.add("SMS", "sms");
+            items.add("Email", "email");;
+            return items;
         }
 
     }

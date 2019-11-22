@@ -3,17 +3,19 @@
 	<f:entry title="${%Entrys}">
 		<f:repeatable field="entrys">
 			<table width="100%">
-				<f:entry field="type" title="${%Type}" description="">
-					<select class="setting-input" name="type">
+				<f:entry field="type" title="${%Type}">
+					<!-- <select class="setting-input" name="type"> this cannot workproperly, why?
 						<f:option value="sms" selected="${instance.type=='sms'}">SMS</f:option>
 						<f:option value="email" selected="${instance.type=='email'}">Email</f:option>
-					</select>
+					</select> -->
+					<!-- <f:textbox default="sms" title="${SMS}"/> this can workproperly--> 
+					<f:select />
 				</f:entry>
 				<f:entry field="recipients" title="${%Recipients}">
 					<f:textarea default="" />
 				</f:entry>
 				<f:advanced>
-					<f:entry field="message" title="${%Customized Message}">
+					<f:entry field="message" title="${%Additional Message}">
 						<f:textarea default="" />
 					</f:entry>
 				</f:advanced>

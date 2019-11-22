@@ -11,8 +11,8 @@ public abstract class AbstractEndpoint extends AbstractDescribableImpl<AbstractE
 
     @SuppressWarnings("unchecked")
     public List<Descriptor<AbstractEndpoint>> getEndpointDescriptors() {
-        Jenkins j = Jenkins.get();
         List<Descriptor<AbstractEndpoint>> descriptors = new ArrayList<Descriptor<AbstractEndpoint>>();
+        Jenkins j = Jenkins.get();
         descriptors.add(j.getDescriptor(EmailEndpoint.class));
         descriptors.add(j.getDescriptor(SMSEndpoint.class));
         return descriptors;

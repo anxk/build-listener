@@ -1,6 +1,6 @@
 package io.jenkins.plugins.nodenotification;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -17,8 +17,8 @@ public class NotificationNodeProperty extends NodeProperty<Node> {
     private List<Entry> entrys;
 
     @DataBoundConstructor
-    public NotificationNodeProperty() {
-        this.entrys = Collections.emptyList();
+    public NotificationNodeProperty(List<Entry> enrtys) {
+        this.entrys = new ArrayList<>();
     }
 
     @DataBoundSetter
